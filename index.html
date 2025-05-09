@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Tarefas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .inline-fields {
+            display: flex;
+            gap: 15px;
+        }
+        .inline-fields .form-group {
+            flex: 1;
+        }
+        .add-option {
+            display: flex;
+            margin-top: 5px;
+        }
+        .add-option input {
+            flex-grow: 1;
+            margin-right: 5px;
+        }
+        .add-option button {
+            width: auto;
+            padding: 8px 12px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #mensagem {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+        .sucesso {
+            background-color: #d5f5e3;
+            color: #27ae60;
+            border: 1px solid #2ecc71;
+        }
+        .erro {
+            background-color: #fadbd8;
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Registro de Tarefas</h1>
+        <form id="formTarefas">
+            <!-- ID será gerado automaticamente -->
+            <input type="hidden" id="ID" name="ID">
+            
+            <div class="form-group">
+                <label for="CATEGORIA">Categoria:</label>
+                <select id="CATEGORIA" name="CATEGORIA" required>
+                    <option value="">Selecione uma categoria</option>
+                    <option value="CRH">CRH</option>
+                    <option value="NFP">NFP</option>
+                    <option value="NAP">NAP</option>
+                    <option value="NIT">NIT</option>
+                    <option value="TI">TI</option>
+                </select>
+                
+                <div class="add-option">
+                    <input type="text" id="novaCategoria" placeholder="Nova categoria">
+                    <button type="button" onclick="adicionarCategoria()">Adicionar</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="TAREFAS">Tarefa:</label>
+                <select id="TAREFAS" name="TAREFAS" required>
+				<option value="">Selecione uma Tarefa</option>
+<option value="ACG">ACG</option>
+  <option value="ALE">ALE</option>
+  <option value="Alteração de Jornada">Alteração de Jornada</option>
+  <option value="Atendimento ao Público">Atendimento ao Público</option>
+  <option value="Certidão, Gozo e Pecúnia">Certidão, Gozo e Pecúnia</option>
+  <option value="Contratos">Contratos</option>
+  <option value="Digitação BFE">Digitação BFE</option>
+  <option value="GDE">GDE</option>
+  <option value="Lançamento/Férias/E Folha">Lançamento/Férias/E Folha</option>
+  <option value="Licença Prêmio">Licença Prêmio</option>
+  <option value="Quinquênio">Quinquênio</option>
+  <option value="Reunião Mensal">Reunião Mensal</option>
+  <option value="Sexta - Parte">Sexta - Parte</option>
+  <option value="Transferências/Mudança de Sede">Transferências/Mudança de Sede</option>
+  <option value="Vale de Refeição">Vale de Refeição</option>
+  <option value="Abono de Permanência">Abono de Permanência</option>
+  <option value="Aposentadoria Etapa I">Aposentadoria Etapa I</option>
+  <option value="Atendimento ao Público">Atendimento ao Público</option>
+  <option value="Homologação de Fériassist. SIPAC">Homologação de Fériassist. SIPAC</option>
+  <option value="Quinquênio">Quinquênio</option>
+  <option value="Substituição - Diretor I NFP CAI / Férias">Substituição - Diretor I NFP CAI / Férias</option>
+  <option value="Qualificação - Formação Curricular/Docentes">Qualificação - Formação Curricular/Docentes</option>
+  <option value="Mudança de SEDE/Transferências">Mudança de SEDE/Transferências</option>
+  <option value="Extinção contratual">Extinção contratual</option>
+  <option value="**Estagiários**Exercício de Integrantes">**Estagiários**Exercício de Integrantes</option>
+  <option value="Assistência - Assuntos variados das Unidades Escolares">Assistência - Assuntos variados das Unidades Escolares</option>
+  <option value="Ação de Alimentos">Ação de Alimentos</option>
+  <option value="Redução de Jornada de Trabalho">Redução de Jornada de Trabalho</option>
+  <option value="Alteração de BFE">Alteração de BFE</option>
+  <option value="UA de Alocação">UA de Alocação</option>
+  <option value="Extinção Contratual">Extinção Contratual</option>
+  <option value="Contratos">Contratos</option>
+  <option value="Atendimento ao Público">Atendimento ao Público</option>
+  <option value="Reunião Mensal">Reunião Mensal</option>
+  <option value="Ação Judicial">Ação Judicial</option>
+  <option value="Municipalização">Municipalização</option>
+  <option value="Licença - Saúde/DPME/Perícias Médicas">Licença - Saúde/DPME/Perícias Médicas</option>
+  <option value="Substituição - Diretor II - CRH CAI/Férias/ESCALA">Substituição - Diretor II - CRH CAI/Férias/ESCALA</option>
+  <option value="Exoneração">Exoneração</option>
+  <option value="Licenças Saúde">Licenças Saúde</option>
+  <option value="Publicação em Diário Oficial">Publicação em Diário Oficial</option>
+  <option value="Licença Maternidade">Licença Maternidade</option>
+  <option value="Licença Paternidade">Licença Paternidade</option>
+  <option value="Falecimento/Vacância">Falecimento/Vacância</option>
+  <option value="FICHA FAI">FICHA FAI</option>
+  <option value="Mudança sist. GDAE dados pessoais">Mudança sist. GDAE dados pessoais</option>
+  <option value="Art. 133">Art. 133</option>
+  <option value="Ato Decisórios/Acúmulos">Ato Decisórios/Acúmulos</option>
+  <option value="Digitação Sist. PAEF Inclusão servidores na SED">Digitação Sist. PAEF Inclusão servidores na SED</option>
+  <option value="Evolução Funcional Via Não -Acadêmica">Evolução Funcional Via Não -Acadêmica</option>
+  <option value="IAMSPE - Inclusão Dependentes e Agregados">IAMSPE - Inclusão Dependentes e Agregados</option>
+  <option value="Laudas - Publicação em Diário Oficial">Laudas - Publicação em Diário Oficial</option>
+  <option value="Processo Seletivo">Processo Seletivo</option>
+  <option value="Qualificação - Formação Curricular/Docentes">Qualificação - Formação Curricular/Docentes</option>
+  <option value="Agente de Org. Escolar">Agente de Org. Escolar</option>
+  <option value="Fechamento Livro - Ponto">Fechamento Livro - Ponto</option>
+  <option value="Portarias de Cessação -Escolas Regulares">Portarias de Cessação -Escolas Regulares</option>
+  <option value="Portarias de Cessação Escolas PEIs">Portarias de Cessação Escolas PEIs</option>
+  <option value="Portarias de Designação -Escolas PEIs">Portarias de Designação -Escolas PEIs</option>
+  <option value="Portarias de Designação -Escolas Regulares">Portarias de Designação -Escolas Regulares</option>
+  <option value="Atendimento ao Público">Atendimento ao Público</option>
+  <option value="CRH CAI">CRH CAI</option>
+  <option value="DPME/Perícias Médicas">DPME/Perícias Médicas</option>
+  <option value="Férias/ESCALA">Férias/ESCALA</option>
+  <option value="Licença - Saúde">Licença - Saúde</option>
+  <option value="Reunião Mensal">Reunião Mensal</option>
+  <option value="Substituição - Diretor II -">Substituição - Diretor II -</option>
+</select>
+                    <div class="add-option">
+                    <input type="text" id="novaTarefa" placeholder="Nova TAREFA">
+                    <button type="button" onclick="adicionarTarefa()">Adicionar</button>
+                </div>
+            </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="DESIGNADO_PARA">Designado para:</label>
+                <select id="DESIGNADO_PARA" name="DESIGNADO_PARA" required>
+                    <option value="">Selecione uma pessoa</option>
+                    <option value="Eliane da Silveira Santos - Diretor II">Eliane da Silveira Santos - Diretor II</option>
+                    <option value="Edna Maria da Costa - Oficial administrativo">Edna Maria da Costa - Oficial administrativo</option>
+                    <option value="Vania Alves Pereira do Amaral - Diretor I">Vania Alves Pereira do Amaral - Diretor I</option>
+					<option value="Mary Gleide de Oliveira Amorim - Diretor I">Mary Gleide de Oliveira Amorim - Diretor I</option>
+					<option value="Adriana Bueno de Moraes  - Oficial administrativo">Adriana Bueno de Moraes  - Oficial administrativo</option>
+					<option value="Bartolomeu Antonio da Silva  - Oficial administrativo">Bartolomeu Antonio da Silva  - Oficial administrativo</option>
+					<option value="Isabel Casaroto Xavier - PEB II assistente técnico">Isabel Casaroto Xavier - PEB II assistente técnico</option>
+					<option value="Nilton Gusson - Oficial administrativo">Nilton Gusson - Oficial administrativo</option>
+		        </select>
+                
+                <div class="add-option">
+                    <input type="text" id="novaPessoa" placeholder="Novo designado">
+                    <button type="button" onclick="adicionarPessoa()">Adicionar</button>
+                </div>
+            </div>
+            
+            <div class="inline-fields">
+                <div class="form-group">
+                    <label for="QUANTIDADE">Quantidade:</label>
+                    <input type="number" id="QUANTIDADE" name="QUANTIDADE" min="1" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="DATA">Data:</label>
+                    <input type="date" id="DATA" name="DATA" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="STATUS">Status:</label>
+                    <select id="STATUS" name="STATUS" required>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em Andamento">Em Andamento</option>
+						<option value="Concluído">Concluído</option>
+                        <option value="Cancelado">Cancelado</option>
+                        <option value="Não Iniciado">Não Iniciado</option>
+                        <option value="Em Espera">Em Espera</option>
+                        <option value="Em dia">Em dia</option>
+						
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="OBSERVACOES_GERAIS">Observações Gerais:</label>
+                <textarea id="OBSERVACOES_GERAIS" name="OBSERVACOES_GERAIS"></textarea>
+            </div>
+            
+            <button type="submit">Salvar Tarefa</button>
+            <button type="button" onclick="limparFormulario()">Limpar</button>
+        </form>
+        
+        <div id="mensagem"></div>
+    </div>
+
+    <script>
+        // Elementos do formulário
+        const formTarefas = document.getElementById('formTarefas');
+        const mensagem = document.getElementById('mensagem');
+        
+        // Listas suspensas
+        const selectCategoria = document.getElementById('CATEGORIA');
+        const selectDesignado = document.getElementById('DESIGNADO_PARA');
+        
+        // Substitua pela URL do seu Web App do Google Apps Script
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWsF1KAiMQOLC_JwrDogpYLah9o8QeJaKM5H7OjsKvokf6H0H-FcMnHh35SlDreHNy/exec";
+        
+        // Gerar ID automático quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('ID').value = gerarID();
+            document.getElementById('DATA').valueAsDate = new Date();
+            
+            // Carrega opções salvas no localStorage
+            carregarOpcoesSalvas();
+        });
+        
+        // Função para gerar um ID único
+        function gerarID() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        }
+        
+        // Funções para adicionar novas opções às listas suspensas
+        function adicionarCategoria() {
+            const novaCategoria = document.getElementById('novaCategoria').value.trim();
+            adicionarOpcaoLista(selectCategoria, novaCategoria, 'categorias');
+            document.getElementById('novaCategoria').value = '';
+        }
+        
+        function adicionarPessoa() {
+            const novaPessoa = document.getElementById('novaPessoa').value.trim();
+            adicionarOpcaoLista(selectDesignado, novaPessoa, 'designados');
+            document.getElementById('novaPessoa').value = '';
+        }
+        
+        function adicionarOpcaoLista(selectElement, novaOpcao, storageKey) {
+            if(novaOpcao) {
+                // Verifica se a opção já existe
+                const opcoesExistentes = Array.from(selectElement.options).map(opt => opt.value);
+                if(!opcoesExistentes.includes(novaOpcao)) {
+                    // Adiciona à lista suspensa
+                    const option = document.createElement('option');
+                    option.value = novaOpcao;
+                    option.textContent = novaOpcao;
+                    selectElement.appendChild(option);
+                    
+                    // Seleciona a nova opção automaticamente
+                    selectElement.value = novaOpcao;
+                    
+                    // Salva no localStorage
+                    salvarOpcao(storageKey, novaOpcao);
+                    
+                    mostrarMensagem(`Opção "${novaOpcao}" adicionada com sucesso!`, true);
+                } else {
+                    mostrarMensagem("Esta opção já existe na lista.", false);
+                }
+            } else {
+                mostrarMensagem("Digite uma opção válida.", false);
+            }
+        }
+        
+        // Funções para gerenciar o localStorage
+        function salvarOpcao(key, value) {
+            const opcoes = JSON.parse(localStorage.getItem(key)) || [];
+            if(!opcoes.includes(value)) {
+                opcoes.push(value);
+                localStorage.setItem(key, JSON.stringify(opcoes));
+            }
+        }
+        
+        function carregarOpcoesSalvas() {
+            // Carrega categorias
+            const categorias = JSON.parse(localStorage.getItem('categorias')) || [];
+            categorias.forEach(cat => {
+                if(!Array.from(selectCategoria.options).some(opt => opt.value === cat)) {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    selectCategoria.appendChild(option);
+                }
+            });
+            
+            // Carrega designados
+            const designados = JSON.parse(localStorage.getItem('designados')) || [];
+            designados.forEach(des => {
+                if(!Array.from(selectDesignado.options).some(opt => opt.value === des)) {
+                    const option = document.createElement('option');
+                    option.value = des;
+                    option.textContent = des;
+                    selectDesignado.appendChild(option);
+                }
+            });
+        }
+        
+        // Envio do formulário
+        formTarefas.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                ID: formTarefas.ID.value,
+                CATEGORIA: formTarefas.CATEGORIA.value,
+                TAREFAS: formTarefas.TAREFAS.value.trim(),
+                DESIGNADO_PARA: formTarefas.DESIGNADO_PARA.value,
+                QUANTIDADE: formTarefas.QUANTIDADE.value,
+                DATA: formTarefas.DATA.value,
+                STATUS: formTarefas.STATUS.value,
+                OBSERVACOES_GERAIS: formTarefas.OBSERVACOES_GERAIS.value.trim()
+            };
+            
+            // Validação básica
+            if(!formData.CATEGORIA || !formData.TAREFAS || !formData.DESIGNADO_PARA || !formData.DATA) {
+                mostrarMensagem("Preencha todos os campos obrigatórios.", false);
+                return;
+            }
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if(result.result === "success") {
+                    mostrarMensagem("Tarefa registrada com sucesso!", true);
+                    limparFormulario();
+                    // Gera novo ID para o próximo registro
+                    document.getElementById('ID').value = gerarID();
+                } else {
+                    mostrarMensagem("Erro ao registrar tarefa.", false);
+                }
+            } catch (error) {
+                mostrarMensagem("Erro na conexão: " + error.message, false);
+            }
+        });
+        
+        function limparFormulario() {
+            formTarefas.reset();
+            document.getElementById('ID').value = gerarID();
+            document.getElementById('DATA').valueAsDate = new Date();
+            document.getElementById('QUANTIDADE').value = 1;
+        }
+        
+        function mostrarMensagem(texto, sucesso) {
+            mensagem.textContent = texto;
+            mensagem.className = sucesso ? "sucesso" : "erro";
+            mensagem.style.display = "block";
+            
+            setTimeout(() => {
+                mensagem.style.display = "none";
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
