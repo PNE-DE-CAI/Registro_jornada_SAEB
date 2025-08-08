@@ -1,420 +1,400 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Tarefas</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .form-container {
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 25px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #34495e;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        .inline-fields {
-            display: flex;
-            gap: 15px;
-        }
-        .inline-fields .form-group {
-            flex: 1;
-        }
-        .add-option {
-            display: flex;
-            margin-top: 5px;
-        }
-        .add-option input {
-            flex-grow: 1;
-            margin-right: 5px;
-        }
-        .add-option button {
-            width: auto;
-            padding: 8px 12px;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-right: 10px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        #mensagem {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 4px;
-            display: none;
-        }
-        .sucesso {
-            background-color: #d5f5e3;
-            color: #27ae60;
-            border: 1px solid #2ecc71;
-        }
-        .erro {
-            background-color: #fadbd8;
-            color: #e74c3c;
-            border: 1px solid #e74c3c;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro jornada SAEB </title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ <style>
+/* Custom scrollbar */
+::-webkit-scrollbar {
+width: 8px;
+}
+::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+background: #888;
+border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+background: #555;
+}
+/* Animation for form submission */
+@keyframes fadeln {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+animation: fadeln 0.5s ease-out forwards;
+}
+ </style>
 </head>
-<body>
-    <div class="form-container">
-        <h1>Registro de Tarefas</h1>
-        <form id="formTarefas">
-            <!-- ID será gerado automaticamente -->
-            <input type="hidden" id="ID" name="ID">
-            
-            <div class="form-group">
-                <label for="CATEGORIA">Categoria:</label>
-                <select id="CATEGORIA" name="CATEGORIA" required>
-                    <option value="">Selecione uma categoria</option>
-                    <option value="CRH">CRH</option>
-                    <option value="NFP">NFP</option>
-                    <option value="NAP">NAP</option>
-                    <option value="NIT">NIT</option>
-                    <option value="TI">TI</option>
-                </select>
-                
-                <div class="add-option">
-                    <input type="text" id="novaCategoria" placeholder="Nova categoria">
-                    <button type="button" onclick="adicionarCategoria()">Adicionar</button>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="TAREFAS">Tarefa:</label>
-                <select id="TAREFAS" name="TAREFAS" required>
-				<option value="">Selecione uma Tarefa</option>
-<option value="ACG">ACG</option>
-  <option value="ALE">ALE</option>
-  <option value="Alteração de Jornada">Alteração de Jornada</option>
-  <option value="Atendimento ao Público">Atendimento ao Público</option>
-  <option value="Certidão, Gozo e Pecúnia">Certidão, Gozo e Pecúnia</option>
-  <option value="Contratos">Contratos</option>
-  <option value="Digitação BFE">Digitação BFE</option>
-  <option value="GDE">GDE</option>
-  <option value="Lançamento/Férias/E Folha">Lançamento/Férias/E Folha</option>
-  <option value="Licença Prêmio">Licença Prêmio</option>
-  <option value="Quinquênio">Quinquênio</option>
-  <option value="Reunião Mensal">Reunião Mensal</option>
-  <option value="Sexta - Parte">Sexta - Parte</option>
-  <option value="Transferências/Mudança de Sede">Transferências/Mudança de Sede</option>
-  <option value="Vale de Refeição">Vale de Refeição</option>
-  <option value="Abono de Permanência">Abono de Permanência</option>
-  <option value="Aposentadoria Etapa I">Aposentadoria Etapa I</option>
-  <option value="Atendimento ao Público">Atendimento ao Público</option>
-  <option value="Homologação de Fériassist. SIPAC">Homologação de Fériassist. SIPAC</option>
-  <option value="Quinquênio">Quinquênio</option>
-  <option value="Substituição - Diretor I NFP CAI / Férias">Substituição - Diretor I NFP CAI / Férias</option>
-  <option value="Qualificação - Formação Curricular/Docentes">Qualificação - Formação Curricular/Docentes</option>
-  <option value="Mudança de SEDE/Transferências">Mudança de SEDE/Transferências</option>
-  <option value="Extinção contratual">Extinção contratual</option>
-  <option value="**Estagiários**Exercício de Integrantes">**Estagiários**Exercício de Integrantes</option>
-  <option value="Assistência - Assuntos variados das Unidades Escolares">Assistência - Assuntos variados das Unidades Escolares</option>
-  <option value="Ação de Alimentos">Ação de Alimentos</option>
-  <option value="Redução de Jornada de Trabalho">Redução de Jornada de Trabalho</option>
-  <option value="Alteração de BFE">Alteração de BFE</option>
-  <option value="UA de Alocação">UA de Alocação</option>
-  <option value="Extinção Contratual">Extinção Contratual</option>
-  <option value="Contratos">Contratos</option>
-  <option value="Atendimento ao Público">Atendimento ao Público</option>
-  <option value="Reunião Mensal">Reunião Mensal</option>
-  <option value="Ação Judicial">Ação Judicial</option>
-  <option value="Municipalização">Municipalização</option>
-  <option value="Licença - Saúde/DPME/Perícias Médicas">Licença - Saúde/DPME/Perícias Médicas</option>
-  <option value="Substituição - Diretor II - CRH CAI/Férias/ESCALA">Substituição - Diretor II - CRH CAI/Férias/ESCALA</option>
-  <option value="Exoneração">Exoneração</option>
-  <option value="Licenças Saúde">Licenças Saúde</option>
-  <option value="Publicação em Diário Oficial">Publicação em Diário Oficial</option>
-  <option value="Licença Maternidade">Licença Maternidade</option>
-  <option value="Licença Paternidade">Licença Paternidade</option>
-  <option value="Falecimento/Vacância">Falecimento/Vacância</option>
-  <option value="FICHA FAI">FICHA FAI</option>
-  <option value="Mudança sist. GDAE dados pessoais">Mudança sist. GDAE dados pessoais</option>
-  <option value="Art. 133">Art. 133</option>
-  <option value="Ato Decisórios/Acúmulos">Ato Decisórios/Acúmulos</option>
-  <option value="Digitação Sist. PAEF Inclusão servidores na SED">Digitação Sist. PAEF Inclusão servidores na SED</option>
-  <option value="Evolução Funcional Via Não -Acadêmica">Evolução Funcional Via Não -Acadêmica</option>
-  <option value="IAMSPE - Inclusão Dependentes e Agregados">IAMSPE - Inclusão Dependentes e Agregados</option>
-  <option value="Laudas - Publicação em Diário Oficial">Laudas - Publicação em Diário Oficial</option>
-  <option value="Processo Seletivo">Processo Seletivo</option>
-  <option value="Qualificação - Formação Curricular/Docentes">Qualificação - Formação Curricular/Docentes</option>
-  <option value="Agente de Org. Escolar">Agente de Org. Escolar</option>
-  <option value="Fechamento Livro - Ponto">Fechamento Livro - Ponto</option>
-  <option value="Portarias de Cessação -Escolas Regulares">Portarias de Cessação -Escolas Regulares</option>
-  <option value="Portarias de Cessação Escolas PEIs">Portarias de Cessação Escolas PEIs</option>
-  <option value="Portarias de Designação -Escolas PEIs">Portarias de Designação -Escolas PEIs</option>
-  <option value="Portarias de Designação -Escolas Regulares">Portarias de Designação -Escolas Regulares</option>
-  <option value="Atendimento ao Público">Atendimento ao Público</option>
-  <option value="CRH CAI">CRH CAI</option>
-  <option value="DPME/Perícias Médicas">DPME/Perícias Médicas</option>
-  <option value="Férias/ESCALA">Férias/ESCALA</option>
-  <option value="Licença - Saúde">Licença - Saúde</option>
-  <option value="Reunião Mensal">Reunião Mensal</option>
-  <option value="Substituição - Diretor II -">Substituição - Diretor II -</option>
+<body class="bg-gray-100 font-sans">
+<div class="min-h-screen flex flex-col">
+<header class="bg-red-700 text-white shadow-lg">
+<div class="container mx-auto px-4 py-6">
+<div class="flex flex-col md:flex-row justify-between items-center">
+<div class="flex items-center mb-4 md:mb-0">
+<i class="fas fa-book-open text-3xl mr-3"></i>
+<h1 class="text-2xl md:text-3xl font-bold">Registro Jornada SAEB 90 dias </h1>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow container mx-auto px-4 py-8">
+<div class="bg-white rounded-xl shadow-md overflow-hidden mb-8 fade-in">
+<div class="bg-gradient-to-r from-red-600 to-red-800 p-6 text-white">
+<h2 class="text-2xl font-bold">Registro de Acompanhamento</h2>
+<p class="mt-2 opacity-90">Preencha os campos abaixo para registrar o andamento dos 
+planos de aprendizagem e listas de exercícios</p>
+</div>
+<div><a href="https://lookerstudio.google.com/embed/reporting/3ab1f371-0e36-45cc-adf9-6735de4e80c4/page/page_12345" target="_blank" class="text-red-600 hover:underline font-semibold">
+    Ver o Painel de Acompanhamento 
+  </a></div>
+<form id="tracking-form" class="p-6">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div>
+<label for="pecs" class="block text-sm font-medium text-gray-700
+mb-1">PECS</label>
+ <select id="pecs" name="pecs" class="w-full px-4 py-2 border
+ border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+ transition-all">
+<option value="" disabled selected>Selecione o PECS</option>
+ <option value="Adalberto Alves de Oliveira - Educação
+Física">Adalberto Alves de Oliveira - Educação Física</option>
+ <option value="Alexsandro Marsal Paes - Arte">Alexsandro Marsal Paes - Arte</option>
+ <option value="Ana Paula Moura da Rocha Dias - Física">Ana Paula Moura da Rocha Dias - Física</option>
+ <option value="Cássia de Fátima Ferrando - Anos Iniciais">Cássia de Fátima Ferrando - Anos Iniciais</option>
+ <option value="Ariel Dias - Filosofia">Ariel Dias - Filosofia</option>
+ <option value="Denise Ferreira Barboza - Ciências Biológicas">Denise Ferreira Barboza - Ciências Biológicas</option>
+ <option value="Helena Aparecida de Doná – Ciências Biológicas">Helena Aparecida de Doná – Ciências Biológicas</option>
+ <option value="Isabel Cristina de Sousa da Silva - Lingua Portuguesa">Isabel Cristina de Sousa da Silva - Língua Portuguesa</option>
+ <option value="Karen Priscila Oyama - Educação Física (Conviva)">Karen Priscila Oyama - Educação Física (Conviva)</option>
+<option value="Kelly Goes dos Santos - Educação Física">Kelly Goes dos Santos - Educação Física</option>
+ <option value="Marcia Marigo Oliveira - Língua Portuguesa">Marcia Marigo Oliveira - Língua Portuguesa</option>
+ <option value="Marcos Paulo - História">Marcos Paulo História</option>
+<option value="Meire Leão - Inglês">Meire Leão - Inglês</option>
+<option value="Renata Martins Correia - Matemática">Renata Martins Correia - Matemática</option>
+ <option value="Janete / PEC qual.">Janete / PEC qual.</option>
+ <option value="Luciana / PEC qual.">Luciana / PEC qual.</option>
+ <option value="Rebeca / PEC qual.">Rebeca / PEC qual.</option>
+ <option value="Amábile / PEC qual.">Amábile / PEC qual.</option>
+ <option value="Ana Sant'Ana / PEC qual.">Ana Sant'Ana / PEC qual.</option>
+ <option value="Valdomiro Pereira de Souza Carvalho - Matemática">Valdomiro Pereira de Souza Carvalho - Matemática</option>
+ <option value="Tiago Jesus Gomes - Matemática">Tiago Jesus Gomes - Matemática</option>
+ <option value="Rosangela Costa - PEC Multiplica">Rosangela Costa - PEC Multiplica</option>
+ <option value="Renato Jose de Souza - PEC Multiplica">Renato Jose de Souza - PEC Multiplica</option>
+ <option value="Katia Regina Pessoa - CEC">Katia Regina Pessoa CEC</option>
+ <option value="Joélia - PEC Anos Iniciais">Joélia - PEC Anos Iniciais</option>
+ <option value="Bruna de Jesus - Ciências">Bruna de Jesus - Ciências</option>
+ <option value="Ireide Santos - Educação física">Ireide Santos - Educação física</option>
+ <option value="Rosa Maria - Química">Rosa Maria - Química</option>
+ </select>
+</div>
+<div>
+<label for="escola" class="block text-sm font-medium text-gray-700
+mb-1">ESCOLA</label>
+ <select id="escola" name="escola" class="w-full px-4 py-2 border
+ border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus: border-blue-500
+ transition-all">
+<option value="" disabled selected>Selecione a Escola</option>
+ <option value="E.E. ADAIL JARBAS DUCLOS">E.E. ADAIL JARBAS DUCLOS</option>
+ <option value="E.E. AFONSO MORENO">E.E. AFONSO MORENO</option>
+ <option value="E.E. ALADINO POLON">E.E. ALADINO POLON</option>
+ <option value="E.E. ALBERTO GRAF - CAPITÃO">E.E. ALBERTO GRAF - CAPITÃO</option>
+ <option value="E.E. ALBINO FIORE">E.E. ALBINO FIORE</option>
+ <option value="E.E. ALFRIED THEODOR WEISZFLOG">E.E. ALFRIED THEODOR WEISZFLOG</option>
+ <option value="E.E. ANA MARIA GARRIDO ORLANDIN - PROF.ª">E.E. ANA MARIA GARRIDO ORLANDIN - PROF.ª</option>
+ <option value="E.E. APARECIDO ROBERTO TONELLOTTI - PROF.">E.E. APARECIDO ROBERTO TONELLOTTI - PROF. </option>
+ <option value="E.E. ARMANDO SESTINI">E.E. ARMANDO SESTINI</option>
+ <option value="E.E. ARTHUR WEINGRILL">E.E. ARTHUR WEINGRILL</option>
+ <option value="E.E. AZEVEDO SOARES">E.E. AZEVEDO SOARES</option>
+ <option value="E.E. BAIRRO DO ITAIM">E.E. BAIRRO DO ITAIM</option>
+ <option value="E.E. BAIRRO JUNDIAIZINHO">E.E. BAIRRO JUNDIAIZINHO</option>
+ <option value="E.E. BELÉM DA SERRA">E.E. BELÉM DA SERRA</option>
+ <option value="E.E. BENEDITO APARECIDO TAVARES – PROF.">E.E. BENEDITO APARECIDO TAVARES - PROF.</option>
+ <option value="E.E. BENEDITO FAGUNDES MARQUES">E.E. BENEDITO FAGUNDES MARQUES</option>
+ <option value="E.E. BUENO DE AZEVEDO FILHO - PROF.">E.E. BUENO DE AZEVEDO FILHO - PROF. </option>
+ <option value="E.E. CARLOS AUGUSTO DE PÁDUA FLEURY - PROF.">E.E. CARLOS AUGUSTO DE PÁDUA FLEURY - PROF. </option>
+ <option value="E.E. CELESTINA VALENTE LENGENFELDER - PROF.ª">E.E. CELESTINA VALENTE LENGENFELDER - PROF.ª</option>
+ <option value="E.E. CHÁCARA CAMPONESA/ Jd Vassouras">E.E. CHÁCARA CAMPONESA/ Jd Vassouras</option>
+ <option value="E.E. DOMINGOS CAMBIAGHI - PROF.">E.E. DOMINGOS CAMBIAGHI - PROF. </option>
+ <option value="E.E. ÉLCIO JOSÉ PEREIRA COTRIM - PROF.">E.E. ÉLCIO JOSÉ PEREIRA COTRIM - PROF. </option>
+ <option value="E.E. ELVIRA PARADA MANGA - PROF.a">E.E. ELVIRA PARADA MANGA - PROF.ª</option>
+ <option value="E.E. FRANCISCO GONÇALVES VIEIRA - PROFO">E.E. FRANCISCO GONÇALVES VIEIRA - PROF°</option>
+ <option value="E.E. HERMELINA DE ALBUQUERQUE PASSARELLA - PROF.ª">E.E. HERMELINA DE ALBUQUERQUE PASSARELLA - PROF.ª</option>
+ <option value="E.E. IRACI SARTORI VIEIRA DA SILVA - PROF.a">E.E. IRACI SARTORI VIEIRA DA SILVA - PROF.ª</option>
+ <option value="E.E. ISAÍAS LUIZ MATIAZZO">E.E. ISAÍAS LUIZ MATIAZZO</option>
+ <option value="E.E. ISAURA DE MIRANDA BOTTO - PROFª">E.E. ISAURA DE MIRANDA BOTTO - PROFª</option>
+ <option value="E.E. ISAURA VALENTINI HANSER - PROFa">E.E. ISAURA VALENTINI HANSER - PROFª</option>
+ <option value="E.E. IVONE DOS ANJOS DA SILVA CAMPOS - PROF.ª">E.E. IVONE DOS ANJOS DA SILVA CAMPOS - PROF.ª</option>
+ <option value="E.E. JARDIM ALEGRIA II">E.E. JARDIM ALEGRIA II</option>
+ <option value="E.E. JARDIM DAS ROSAS">E.E. JARDIM DAS ROSAS</option>
+ <option value="E.E. JARDIM SÃO FRANCISCO">E.E. JARDIM SÃO FRANCISCO</option>
+ <option value="E.E. JARDIM SILVIA II">E.E. JARDIM SILVIA II</option>
+ <option value="E.E. JOAQUIM MARQUES DA SILVA SOBRINHO - TTE.">E.E. JOAQUIM MARQUES DA SILVA SOBRINHO - TTE.</option>
+ <option value="E.E. JOCIMARA VIEIRA DA SILVA - PROF.ª">E.E. JOCIMARA VIEIRA DA SILVA - PROF.ª</option>
+ <option value="E.E. JOSÉ CARLOS DA SILVA JUNIOR">E.E. JOSÉ CARLOS DA SILVA JUNIOR</option>
+ <option value="E.E. JOSÉ DE BARROS MARTINS - EDITOR">E.E. JOSÉ DE BARROS MARTINS - EDITOR</option>
+ <option value="E.E. JOSÉ PARADA - PROF.">E.E. JOSÉ PARADA - PROF.</option>
+ <option value="E.E. JOSÉ ROBERTO MELCHIOR - DR.">E.E. JOSÉ ROBERTO MELCHIOR - DR.</option>
+ <option value="E.E. KÁTIA MARIA TARIFA LEME TONELLI - PROF.ª">E.E. KÁTIA MARIA TARIFA LEME TONELLI - PROF.ª</option>
+ <option value="E.E. LENITA CORRÊA CAMARGO - PROF.a">E.E. LENITA CORRÊA CAMARGO - PROF.ª</option>
+ <option value="E.E. LUIZ ALEXANDRE DOS SANTOS - VEREADOR">E.E. LUIZ ALEXANDRE DOS SANTOS - VEREADOR</option>
+ <option value="E.E. LYDIA SCALET WALKER - PROF.ª">E.E. LYDIA SCALET WALKER - PROF.ª</option>
+ <option value="E.E. MARIA ZEZA GOMES DE OLIVEIRA">E.E. MARIA ZEZA GOMES DE OLIVEIRA</option>
+ <option value="E.E. MARIO TOLEDO DE MORAES - DR.">E.E. MARIO TOLEDO DE MORAES - DR.</option>
+ <option value="E.E. NAIR HANNICKEL ROMARO">E.E. NAIR HANNICKEL ROMARO</option>
+ <option value="E.E. NELSON MANZANARES - DR.">E.E. NELSON MANZANARES - DR.</option>
+ <option value="E.E. NIDE ZAIM CARDOSO - PROF.a">E.E. NIDE ZAIM CARDOSO - PROF.ª</option>
+ <option value="E.E. ODARICO OLIVEIRA NASCIMENTO - PROF.">E.E. ODARICO OLIVEIRA NASCIMENTO - PROF.</option>
+ <option value="E.E. OTTO WEISZFLOG">E.E. OTTO WEISZFLOG</option>
+ <option value="E.E. OZILDE ALBUQUERQUE PASSARELLA - DR.">E.E. OZILDE ALBUQUERQUE PASSARELLA - DR.</option>
+ <option value="E.E. PARQUE CENTO E VINTE II">E.E. PARQUE CENTO E VINTE II</option>
+ <option value="E.E. PAULO DUARTE">E.E. PAULO DUARTE</option>
+ <option value="E.E. PEDRO GALRÃO DO NASCIMENTO">E.E. PEDRO GALRÃO DO NASCIMENTO</option>
+ <option value="E.E. PEDRO LELIS DE SOUZA - PREFEITO">E.E. PEDRO LELIS DE SOUZA - PREFEITO</option>
+ <option value="E.E. PEDRO PAULO AGUIAR">E.E. PEDRO PAULO AGUIAR</option>
+ <option value="E.E. PIETRO PETRI">E.E. PIETRO PETRI</option>
+ <option value="E.E. RITUCO MITANI - PROF.ª">E.E. RITUCO MITANI - PROF.ª</option>
+ <option value="E.E. ROGÉRIO LEVORIN - PROF.">E.E. ROGÉRIO LEVORIN - PROF.</option>
+ <option value="E.E. SUZANA DIAS">E.E. SUZANA DIAS</option>
+ <option value="E.E. ULYSSES SANCHES RAMIRES - PROF.">E.E. ULYSSES SANCHES RAMIRES - PROF.</option>
+ <option value="E.E. VINCENZO LOBASSI">E.E. VINCENZO LOBASSI</option>
+ <option value="E.E. WALTER RIBAS DE ANDRADE - PROF.">E.E. WALTER RIBAS DE ANDRADE - PROF.</option>
+ <option value="E.E. WALTHER WEISZFLOG">E.E. WALTHER WEISZFLOG</option>
+ <option value="E.E. ZILTON BICUDO - PROF.">E.E. ZILTON BICUDO - PROF.</option>
+ <option value="E.E. OLINDO DÁRTORA - DR.">E.E. OLINDO DÁRTORA - DR.</option>
+ </select>
+</div>
+<div>
+<label for="disciplina" class="block text-sm font-medium text-gray-700
+mb-1">DISCIPLINA</label>
+<select id="disciplina" name="disciplina" class="w-full px-4 py-2 border
+ border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+ transition-all">
+<option value="" disabled selected>Selecione a Disciplina</option>
+ <option value="LP - OE">LP - OE</option>
+ <option value="MT - OE">MT - OE</option>
+ <option value="FGB - LB">FGB - LB</option>
+ <option value="FGB - MT">FGB - MT</option>
+ <option value="OUTROS">OUTROS</option>
+ </select>
+</div>
+<div>
+<label for="ano" class="block text-sm font-medium text-gray-700
+mb-1">ANO/SÉRIE</label>
+<select id="ano" name="ano" class="w-full px-4 py-2 border
+ border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+ transition-all">
+<option value="" disabled selected>Selecione o Ano/Série</option>
+ <option value="5° ANO">5° ANO</option>
+<option value="9° ANO">9° ANO</option>
+<option value="3° SÉRIE">3° SÉRIE</option>
 </select>
-                    <div class="add-option">
-                    <input type="text" id="novaTarefa" placeholder="Nova TAREFA">
-                    <button type="button" onclick="adicionarTarefa()">Adicionar</button>
-                </div>
-            </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="DESIGNADO_PARA">Designado para:</label>
-                <select id="DESIGNADO_PARA" name="DESIGNADO_PARA" required>
-                    <option value="">Selecione uma pessoa</option>
-                    <option value="Eliane da Silveira Santos - Diretor II">Eliane da Silveira Santos - Diretor II</option>
-                    <option value="Edna Maria da Costa - Oficial administrativo">Edna Maria da Costa - Oficial administrativo</option>
-                    <option value="Vania Alves Pereira do Amaral - Diretor I">Vania Alves Pereira do Amaral - Diretor I</option>
-					<option value="Mary Gleide de Oliveira Amorim - Diretor I">Mary Gleide de Oliveira Amorim - Diretor I</option>
-					<option value="Adriana Bueno de Moraes  - Oficial administrativo">Adriana Bueno de Moraes  - Oficial administrativo</option>
-					<option value="Bartolomeu Antonio da Silva  - Oficial administrativo">Bartolomeu Antonio da Silva  - Oficial administrativo</option>
-					<option value="Isabel Casaroto Xavier - PEB II assistente técnico">Isabel Casaroto Xavier - PEB II assistente técnico</option>
-					<option value="Nilton Gusson - Oficial administrativo">Nilton Gusson - Oficial administrativo</option>
-		        </select>
-                
-                <div class="add-option">
-                    <input type="text" id="novaPessoa" placeholder="Novo designado">
-                    <button type="button" onclick="adicionarPessoa()">Adicionar</button>
-                </div>
-            </div>
-            
-            <div class="inline-fields">
-                <div class="form-group">
-                    <label for="QUANTIDADE">Quantidade:</label>
-                    <input type="number" id="QUANTIDADE" name="QUANTIDADE" min="1" value="1">
-                </div>
-                
-                <div class="form-group">
-                    <label for="DATA">Data:</label>
-                    <input type="date" id="DATA" name="DATA" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="STATUS">Status:</label>
-                    <select id="STATUS" name="STATUS" required>
-                        <option value="Pendente">Pendente</option>
-                        <option value="Em Andamento">Em Andamento</option>
-						<option value="Concluído">Concluído</option>
-                        <option value="Cancelado">Cancelado</option>
-                        <option value="Não Iniciado">Não Iniciado</option>
-                        <option value="Em Espera">Em Espera</option>
-                        <option value="Em dia">Em dia</option>
-						
-                    </select>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="OBSERVACOES_GERAIS">Observações Gerais:</label>
-                <textarea id="OBSERVACOES_GERAIS" name="OBSERVACOES_GERAIS"></textarea>
-            </div>
-            
-            <button type="submit">Salvar Tarefa</button>
-            <button type="button" onclick="limparFormulario()">Limpar</button>
-        </form>
-        
-        <div id="mensagem"></div>
-    </div>
+</div>
+<div>
+<label for="turno" class="block text-sm font-medium text-gray-700
+mb-1">TURNO</label>
+<select id="turno" name="turno" class="w-full px-4 py-2 border
+ border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+ transition-all">
+<option value="" disabled selected>Selecione o Turno</option>
+ <option value="MANHÃ">MANHÃ</option>
+<option value="TARDE">TARDE</option>
+<option value="NOITE">NOITE</option>
+ </select>
+</div>
+<div>
+<label for="turma" class="block text-sm font-medium text-gray-700
+mb-1">TURMA</label>
+ <select id="turma" name="turma" class="w-full px-4 py-2 border
+ border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+ transition-all">
+<option value="" disabled selected>Selecione a Turma</option>
+ <option value="A">A</option>
+<option value="B">B</option>
+<option value="C">C</option>
+<option value="D">D</option>
+<option value="E">E</option>
+<option value="F">F</option>
+<option value="G">G</option>
+<option value="H">H</option>
+<option value="I">I</option>
+<option value="J">J</option>
+<option value="K">K</option>
+<option value="L">L</option>
+<option value="M">M</option>
+ </select>
+</div>
+<div class="md:col-span-2 lg:col-span-3">
+<label for="data" class="block text-sm font-medium text-gray-700
+mb-1">DATA</label>
+<input type="date" id="data" name="data" class="w-full px-4 py-2 border
+ border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+ transition-all">
+</div>
+<div>
+<label for="lista_exercicios" class="block text-sm font-medium
+text-gray-700 mb-1">LISTA DE EXERCÍCIOS</label>
+<select id="lista_exercicios" name="lista_exercicios" class="w-full px-4
+py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500
+ focus:border-red-500 transition-all">
+<option value="" disabled selected>Selecione</option>
+<option value="Sim">Sim</option>
+<option value="Não">Não</option>
+<option value="Parcial">Parcial</option>
+<option value="Adaptado">Adaptado</option>
+ </select>
+</div>
+<div>
+<label for="plano_aprendizado" class="block text-sm font-medium
+text-gray-700 mb-1">PLANO DE APRENDIZADO</label>
+<select id="plano_aprendizado" name="plano_aprendizado" class="w-full
+px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500
+ focus:border-red-500 transition-all">
+<option value="" disabled selected>Selecione</option>
+<option value="Sim">Sim</option>
+<option value="Não">Não</option>
+<option value="Parcial">Parcial</option>
+<option value="Adaptado">Adaptado</option>
+ </select>
+</div>
+<div class="md:col-span-2 lg:col-span-3">
+<label for="observacoes" class="block text-sm font-medium text-gray-700
+mb-1">OBSERVAÇÕES</label>
+<textarea id="observacoes" name="observacoes" rows="3" class="w-full
+px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500
+ focus:border-red-500 transition-all" placeholder="Adicione observações relevantes sobre o
+ acompanhamento..."></textarea>
+</div>
+</div>
+<div class="mt-8 flex justify-end space-x-4">
+<button type="reset" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg
+hover:bg-gray-300 transition-colors">
+<i class="fas fa-eraser mr-2"></i>Limpar
+</button>
+<button type="submit" id="submit-button" class="px-6 py-2 bg-red-600 text-white rounded-lg
+hover:bg-red-700 transition-colors">
+<i class="fas fa-save mr-2"></i>Salvar Registro
+</button>
+</div>
+</form>
+</div>
+</main>
+<footer class="bg-gray-800 text-white py-8">
+<div class="container mx-auto px-4">
+<div class="flex flex-col md:flex-row justify-between items-center">
+<div class="mb-4 md:mb-0">
+<h3 class="text-xl font-bold">UNIDADE DE ENSINO REGIONAL DE CAIEIRAS</h3>
+<p class="mt-2 text-gray-400">Sistema de acompanhamento
+JORNADA SAEB</p>
+</div>
+<div class="flex space-x-6">
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<i class="fab fa-facebook-f text-xl"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<i class="fab fa-twitter text-xl"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<i class="fab fa-instagram text-xl"></i>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<i class="fab fa-linkedin-in text-xl"></i>
+</a>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+<p>© 2025 Sistema de acompanhamento JORNADA SAEB.
+Todos os direitos
+ reservados.</p>
+</div>
+</div>
+</footer>
+</div>
+<div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center
+justify-center z-50 hidden">
+<div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 transform transition-all
+fade-in">
+<div class="flex justify-between items-start">
+<div class="flex items-center">
+<div class="bg-green-100 p-3 rounded-full mr-4">
+<i
+class="fas fa-check-circle text-green-600 text-2xl"></i>
+</div>
+<h3 class="text-lg font-bold text-gray-900">Registro salvo com sucesso!</h3>
+</div>
+<button id="close-modal" class="text-gray-400 hover:text-gray-600">
+<i class="fas fa-times"></i>
+</button>
+</div>
+<p class="mt-4 text-sm text-gray-500">Seu registro foi enviado com sucesso para a planilha de acompanhamento.</p>
+<div class="mt-6 text-right">
+<button id="modal-ok" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+Ok
+</button>
+</div>
+</div>
+</div>
+<script>
+const scriptURL = 'https://script.google.com/macros/s/AKfycbx_YxtXsNQ19BWzjNEyw_oBNqG6QZIQThZZcfWUH-IFvcM7Sw7cMfR_Z0ImXX2xFLD4Ww/exec';
+const trackingForm = document.getElementById('tracking-form');
+const submitButton = document.getElementById('submit-button');
 
-    <script>
-        // Elementos do formulário
-        const formTarefas = document.getElementById('formTarefas');
-        const mensagem = document.getElementById('mensagem');
-        
-        // Listas suspensas
-        const selectCategoria = document.getElementById('CATEGORIA');
-        const selectDesignado = document.getElementById('DESIGNADO_PARA');
-        
-        // Substitua pela URL do seu Web App do Google Apps Script
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWsF1KAiMQOLC_JwrDogpYLah9o8QeJaKM5H7OjsKvokf6H0H-FcMnHh35SlDreHNy/exec";
-        
-        // Gerar ID automático quando a página carrega
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('ID').value = gerarID();
-            document.getElementById('DATA').valueAsDate = new Date();
-            
-            // Carrega opções salvas no localStorage
-            carregarOpcoesSalvas();
-        });
-        
-        // Função para gerar um ID único
-        function gerarID() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-        }
-        
-        // Funções para adicionar novas opções às listas suspensas
-        function adicionarCategoria() {
-            const novaCategoria = document.getElementById('novaCategoria').value.trim();
-            adicionarOpcaoLista(selectCategoria, novaCategoria, 'categorias');
-            document.getElementById('novaCategoria').value = '';
-        }
-        
-        function adicionarPessoa() {
-            const novaPessoa = document.getElementById('novaPessoa').value.trim();
-            adicionarOpcaoLista(selectDesignado, novaPessoa, 'designados');
-            document.getElementById('novaPessoa').value = '';
-        }
-        
-        function adicionarOpcaoLista(selectElement, novaOpcao, storageKey) {
-            if(novaOpcao) {
-                // Verifica se a opção já existe
-                const opcoesExistentes = Array.from(selectElement.options).map(opt => opt.value);
-                if(!opcoesExistentes.includes(novaOpcao)) {
-                    // Adiciona à lista suspensa
-                    const option = document.createElement('option');
-                    option.value = novaOpcao;
-                    option.textContent = novaOpcao;
-                    selectElement.appendChild(option);
-                    
-                    // Seleciona a nova opção automaticamente
-                    selectElement.value = novaOpcao;
-                    
-                    // Salva no localStorage
-                    salvarOpcao(storageKey, novaOpcao);
-                    
-                    mostrarMensagem(`Opção "${novaOpcao}" adicionada com sucesso!`, true);
-                } else {
-                    mostrarMensagem("Esta opção já existe na lista.", false);
-                }
-            } else {
-                mostrarMensagem("Digite uma opção válida.", false);
-            }
-        }
-        
-        // Funções para gerenciar o localStorage
-        function salvarOpcao(key, value) {
-            const opcoes = JSON.parse(localStorage.getItem(key)) || [];
-            if(!opcoes.includes(value)) {
-                opcoes.push(value);
-                localStorage.setItem(key, JSON.stringify(opcoes));
-            }
-        }
-        
-        function carregarOpcoesSalvas() {
-            // Carrega categorias
-            const categorias = JSON.parse(localStorage.getItem('categorias')) || [];
-            categorias.forEach(cat => {
-                if(!Array.from(selectCategoria.options).some(opt => opt.value === cat)) {
-                    const option = document.createElement('option');
-                    option.value = cat;
-                    option.textContent = cat;
-                    selectCategoria.appendChild(option);
-                }
-            });
-            
-            // Carrega designados
-            const designados = JSON.parse(localStorage.getItem('designados')) || [];
-            designados.forEach(des => {
-                if(!Array.from(selectDesignado.options).some(opt => opt.value === des)) {
-                    const option = document.createElement('option');
-                    option.value = des;
-                    option.textContent = des;
-                    selectDesignado.appendChild(option);
-                }
-            });
-        }
-        
-        // Envio do formulário
-        formTarefas.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const formData = {
-                ID: formTarefas.ID.value,
-                CATEGORIA: formTarefas.CATEGORIA.value,
-                TAREFAS: formTarefas.TAREFAS.value.trim(),
-                DESIGNADO_PARA: formTarefas.DESIGNADO_PARA.value,
-                QUANTIDADE: formTarefas.QUANTIDADE.value,
-                DATA: formTarefas.DATA.value,
-                STATUS: formTarefas.STATUS.value,
-                OBSERVACOES_GERAIS: formTarefas.OBSERVACOES_GERAIS.value.trim()
-            };
-            
-            // Validação básica
-            if(!formData.CATEGORIA || !formData.TAREFAS || !formData.DESIGNADO_PARA || !formData.DATA) {
-                mostrarMensagem("Preencha todos os campos obrigatórios.", false);
-                return;
-            }
-            
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                const result = await response.json();
-                
-                if(result.result === "success") {
-                    mostrarMensagem("Tarefa registrada com sucesso!", true);
-                    limparFormulario();
-                    // Gera novo ID para o próximo registro
-                    document.getElementById('ID').value = gerarID();
-                } else {
-                    mostrarMensagem("Erro ao registrar tarefa.", false);
-                }
-            } catch (error) {
-                mostrarMensagem("Erro na conexão: " + error.message, false);
-            }
-        });
-        
-        function limparFormulario() {
-            formTarefas.reset();
-            document.getElementById('ID').value = gerarID();
-            document.getElementById('DATA').valueAsDate = new Date();
-            document.getElementById('QUANTIDADE').value = 1;
-        }
-        
-        function mostrarMensagem(texto, sucesso) {
-            mensagem.textContent = texto;
-            mensagem.className = sucesso ? "sucesso" : "erro";
-            mensagem.style.display = "block";
-            
-            setTimeout(() => {
-                mensagem.style.display = "none";
-            }, 5000);
-        }
-    </script>
+const successModal = document.getElementById('success-modal');
+const closeModalBtn = document.getElementById('close-modal');
+const modalOkBtn = document.getElementById('modal-ok');
+
+trackingForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  
+  submitButton.disabled = true;
+  submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Salvando...';
+
+  const formData = new FormData(trackingForm);
+  
+  try {
+    const response = await fetch(scriptURL, {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (response.ok) {
+      trackingForm.reset();
+      
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('data').value = today;
+      
+      successModal.classList.remove('hidden');
+    } else {
+      console.error('Erro ao salvar os dados na planilha.', response.statusText);
+      alert('Ocorreu um erro ao salvar o registro. Tente novamente.');
+    }
+  } catch (error) {
+    console.error('Erro na requisição:', error);
+    alert('Ocorreu um erro na comunicação. Verifique sua conexão e tente novamente.');
+  } finally {
+    submitButton.disabled = false;
+    submitButton.innerHTML = '<i class="fas fa-save mr-2"></i>Salvar Registro';
+  }
+});
+
+closeModalBtn.addEventListener('click', () => {
+  successModal.classList.add('hidden');
+});
+
+modalOkBtn.addEventListener('click', () => {
+  successModal.classList.add('hidden');
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('data').value = today;
+});
+</script>
 </body>
 </html>
